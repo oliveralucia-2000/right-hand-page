@@ -871,6 +871,37 @@ html:not(.js) .acc-icon { display: none; }
 .cta-mono { height: 40px; width: auto; margin-bottom: 32px; }
 .final-cta .lead { margin-top: 24px; color: var(--ivory-70); }
 
+/* Lead form (HighLevel embed) in an Ivory card */
+.lead-form {
+  margin-top: 40px;
+  padding: 24px;
+  background: var(--ivory);
+  border: 1px solid var(--prussian-12);
+  border-radius: 4px;
+  color: var(--gunmetal);
+}
+.lead-form-label {
+  margin-bottom: 16px;
+  font-family: var(--font-primary);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  line-height: 1.25;
+  color: var(--prussian);
+}
+.lead-form-frame iframe { display: block; width: 100%; height: 774px; }
+.lead-form-fallback {
+  display: none;
+  padding: 20px;
+  border: 1px solid var(--prussian-12);
+  border-radius: 4px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--gunmetal);
+}
+.form-blocked .lead-form-frame iframe { display: none; }
+.form-blocked .lead-form-fallback { display: block; }
+.form-note { margin-top: 12px; font-size: 14px; line-height: 1.5; color: var(--ivory-70); }
+
 .site-footer {
   background: var(--prussian);
   border-top: 1px solid var(--ivory-16);
@@ -1412,6 +1443,7 @@ html:not(.js) .guarantee-card .flip-back, .flip-static.guarantee-card .flip-back
   .marker-with-pill .pill { margin-left: 0; }
 
   .final-cta { padding: 96px 0; }
+  .lead-form { padding: 16px 12px; }
   .footer-inner { flex-direction: column; }
 }
 
