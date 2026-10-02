@@ -22,6 +22,7 @@
   initCalculator();
   initQuotes();
   initAccordion();
+  initLeadForm();
 
   var reveals = document.querySelectorAll('[data-reveal]');
   var sections = document.querySelectorAll('.section');
@@ -855,6 +856,64 @@
         b.setAttribute('aria-expanded', open ? 'true' : 'false');
         panel.hidden = !open;
       });
+    });
+  }
+
+  /* ---------- Lead form modal ---------- */
+  // Every [data-open-form] button opens the HighLevel form in a native <dialog>.
+  // The iframe and the embed script load only the first time it opens.
+  // Without JS (or without <dialog> support) the links keep working: #book, or the form page.
+  function initLeadForm() {
+    var dialog = document.getElementById('lead-dialog');
+    if (!dialog || typeof dialog.showModal !== 'function') return;
+    var slot = dialog.querySelector('[data-form-slot]');
+    var tpl = document.getElementById('lead-form-embed');
+    var closeBtn = dialog.querySelector('[data-close-form]');
+    var guard = dialog.querySelector('[data-focus-guard]');
+    var loaded = false, opener = null;
+
+    function load() {
+      if (loaded) return;
+      loaded = true;
+      slot.insertBefore(tpl.content.cloneNode(true), slot.firstChild);
+      var s = document.createElement('script');
+      s.src = 'https://link.msgsndr.com/js/form_embed.js';
+      // Script blocked: hide the iframe and show the text message instead of an empty box.
+      s.onerror = function () { document.documentElement.classList.add('form-blocked'); };
+      document.body.appendChild(s);
+    }
+
+    function open(e) {
+      e.preventDefault();
+      opener = e.currentTarget;
+      load();
+      document.documentElement.classList.add('modal-open');
+      dialog.showModal();
+      dialog.scrollTop = 0;
+      closeBtn.focus();
+    }
+    document.querySelectorAll('[data-open-form]').forEach(function (b) { b.addEventListener('click', open); });
+
+    // Esc closes natively; the close button and backdrop clicks close too.
+    closeBtn.addEventListener('click', function () { dialog.close(); });
+    dialog.addEventListener('click', function (e) {
+      if (e.target !== dialog) return; // clicks inside the card
+      var r = dialog.getBoundingClientRect();
+      var inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+      if (!inside) dialog.close(); // the backdrop (not the modal's own scrollbar)
+    });
+    dialog.addEventListener('close', function () {
+      document.documentElement.classList.remove('modal-open');
+      if (opener) opener.focus({ preventScroll: true }); // back to the button that opened it
+    });
+
+    // Keep Tab inside the modal: past the end goes back to the close button, Shift+Tab from it goes to the form.
+    guard.addEventListener('focus', function () { closeBtn.focus(); });
+    closeBtn.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab' || !e.shiftKey) return;
+      var frame = slot.querySelector('iframe');
+      e.preventDefault();
+      if (frame && getComputedStyle(frame).display !== 'none') frame.focus(); else guard.focus();
     });
   }
 })();

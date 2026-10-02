@@ -38,7 +38,7 @@
         <li><a href="#sop-lab">SOP Lab</a></li>
         <li><a href="#questions">Questions</a></li>
       </ul>
-      <a class="btn btn-nav" href="#book">Book your matching call<span class="btn-arrow" aria-hidden="true">→</span></a>
+      <a class="btn btn-nav" href="#book" data-open-form>Book your matching call<span class="btn-arrow" aria-hidden="true">→</span></a>
     </nav>
   </header>
 
@@ -58,7 +58,7 @@
             <p class="hero-body" data-reveal>Get out of the middle of your business. A full-time Right Hand takes ownership of the inbox, the follow-ups, the systems and the projects that keep pulling you back in, so the business stops running through you.</p>
             <div class="cta-block" data-reveal>
               <div class="btn-row">
-                <a class="btn" href="#book">Book your matching call<span class="btn-arrow" aria-hidden="true">→</span></a>
+                <a class="btn" href="#book" data-open-form>Book your matching call<span class="btn-arrow" aria-hidden="true">→</span></a>
                 <a class="btn btn-outline" href="#calculator">Calculate your leverage</a>
               </div>
               <p class="small-note">Pricing is set during the matching call.</p>
@@ -523,7 +523,7 @@
                 <div class="calc-line"><span>Payback in days</span><strong data-out="payback"></strong></div>
               </div>
             </div>
-            <a class="btn calc-btn" href="#book"><span data-out="cta">Reclaim my 18 hours / week</span><span class="btn-arrow" aria-hidden="true">→</span></a>
+            <a class="btn calc-btn" href="#book" data-open-form><span data-out="cta">Reclaim my 18 hours / week</span><span class="btn-arrow" aria-hidden="true">→</span></a>
             <p class="small-note">An estimate from your own numbers. Not a promise, forecast or guarantee.</p>
           </div>
         </div>
@@ -897,35 +897,9 @@
         </div>
           <h2 id="book-title" class="h2" data-reveal>You didn’t start a company to manage calendars and format spreadsheets.</h2>
           <p class="lead" data-reveal>Hand off your operational friction to an elite, dedicated Latin American operator who cares about your business outcomes as much as you do.</p>
-          <!-- Lead form: HighLevel embed (practice account). Iframe height set to 774px; the embed's height:100% would collapse it. -->
-          <div class="lead-form" data-reveal>
-            <h3 class="lead-form-label">Request your matching call</h3>
-            <div class="lead-form-frame">
-              <iframe
-                  src="https://api.leadconnectorhq.com/widget/form/xTbr9SyX2SofxlFrdI4P"
-                  style="width:100%;height:774px;border:none;border-radius:8px"
-                  id="inline-xTbr9SyX2SofxlFrdI4P"
-                  data-layout="{'id':'INLINE'}"
-                  data-trigger-type="alwaysShow"
-                  data-trigger-value=""
-                  data-activation-type="alwaysActivated"
-                  data-activation-value=""
-                  data-deactivation-type="neverDeactivate"
-                  data-deactivation-value=""
-                  data-form-name="RH Matching Call Request - Student Concept - Lucía Olivera"
-                  data-height="774"
-                  data-layout-iframe-id="inline-xTbr9SyX2SofxlFrdI4P"
-                  data-form-id="xTbr9SyX2SofxlFrdI4P"
-                  data-cookie-consent="true"
-                  data-cookie-consent-provider="auto"
-                  title="RH Matching Call Request - Student Concept - Lucía Olivera"
-              ></iframe>
-              <!-- Shown instead of the iframe when the form script is blocked (see the onerror below). -->
-              <p class="lead-form-fallback" role="status">The form couldn’t load here. It may be blocked by your browser or a content blocker. Allow content from leadconnectorhq.com and msgsndr.com, then reload the page, or try another browser.</p>
-            </div>
-          </div>
-          <p class="form-note">Student concept form. Submissions go to my practice HighLevel account, not to Pareto Talent.</p>
           <div class="cta-block" data-reveal>
+            <!-- With JS this opens the form modal; without JS it opens the HighLevel form page in a new tab. -->
+            <a class="btn" href="https://api.leadconnectorhq.com/widget/form/xTbr9SyX2SofxlFrdI4P" target="_blank" rel="noopener" data-open-form>Book your matching call<span class="btn-arrow" aria-hidden="true">→</span></a>
             <p class="small-note">Pricing is set during the matching call.</p>
             <p class="cta-chips"><span class="text-chip">Matching Guarantee</span><span class="text-chip">Lifetime Replacement</span><span class="text-chip">Freedom 40</span><span class="cta-chips-note">(per paretotalent.com)</span></p>
           </div>
@@ -943,9 +917,45 @@
     </div>
   </footer>
 
+  <!-- Lead form modal (native <dialog>). Opened by every [data-open-form] button. -->
+  <dialog class="lead-dialog" id="lead-dialog" aria-labelledby="lead-dialog-title">
+    <div class="lead-form">
+      <button type="button" class="lead-dialog-close" data-close-form aria-label="Close" autofocus>
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+      <h2 class="lead-form-label" id="lead-dialog-title">Request your matching call</h2>
+      <div class="lead-form-frame" data-form-slot>
+        <!-- Shown instead of the iframe when the form script is blocked. -->
+        <p class="lead-form-fallback" role="status">The form couldn’t load here. It may be blocked by your browser or a content blocker. Allow content from leadconnectorhq.com and msgsndr.com, then reload the page, or try another browser.</p>
+      </div>
+      <p class="form-note">Student concept form. Submissions go to my practice HighLevel account, not to Pareto Talent.</p>
+      <span class="focus-guard" tabindex="0" data-focus-guard></span>
+    </div>
+    <template id="lead-form-embed">
+      <!-- HighLevel embed code, unchanged except height: 774px (height:100% would collapse it). -->
+      <iframe
+                        src="https://api.leadconnectorhq.com/widget/form/xTbr9SyX2SofxlFrdI4P"
+                        style="width:100%;height:774px;border:none;border-radius:8px"
+                        id="inline-xTbr9SyX2SofxlFrdI4P"
+                        data-layout="{'id':'INLINE'}"
+                        data-trigger-type="alwaysShow"
+                        data-trigger-value=""
+                        data-activation-type="alwaysActivated"
+                        data-activation-value=""
+                        data-deactivation-type="neverDeactivate"
+                        data-deactivation-value=""
+                        data-form-name="RH Matching Call Request - Student Concept - Lucía Olivera"
+                        data-height="774"
+                        data-layout-iframe-id="inline-xTbr9SyX2SofxlFrdI4P"
+                        data-form-id="xTbr9SyX2SofxlFrdI4P"
+                        data-cookie-consent="true"
+                        data-cookie-consent-provider="auto"
+                        title="RH Matching Call Request - Student Concept - Lucía Olivera"
+                    ></iframe>
+    </template>
+  </dialog>
+
   <script src="vendor/matter.min.js" defer></script>
   <script src="script.js" defer></script>
-  <!-- HighLevel form embed script. If it is blocked, the form box shows a text message instead of staying empty. -->
-  <script src="https://link.msgsndr.com/js/form_embed.js" defer onerror="document.documentElement.classList.add('form-blocked')"></script>
 </body>
 </html>
